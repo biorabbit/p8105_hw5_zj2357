@@ -42,10 +42,60 @@ joined_df %>%
     names_prefix = "week_",
     values_to = "value"
   ) %>%
-  mutate(week=as.numeric(week)) %>%
-  ggplot(aes(x=week,y=value, color = group, group = id)) +
+  mutate(week = as.numeric(week)) %>%
+  ggplot(aes(x = week,y = value, color = group, group = id)) +
   geom_line()
 ```
+
+
+# Problem 2
+
+```{r}
+rm(list = ls())
+
+homi_df = read_csv("data/homicide-data.csv")
+```
+
+
+```{r}
+homi_df = 
+  homi_df %>%
+  mutate(
+    city_state = str_c(city, ",", state) 
+  ) %>%
+  group_by(city_state) %>%
+  summarise(
+    n_obs = n(),
+    unsolved = sum(disposition %in% c("Closed without arrest","Open/No arrest"))
+  )
+  
+homi_filt = filter(homi_df,city_state == "Baltimore,MD")
+test_res =  prop.test(x = homi_filt$unsolved, n = homi_filt$n_obs)
+save(test_res, file = "results/prop_test_BMD.RData")
+  
+```
+
+
+
+
+
+
+
+
+
+
+
+# Problem 3
+
+
+
+
+
+
+
+
+
+
 
 
 
