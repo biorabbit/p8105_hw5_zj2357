@@ -72,9 +72,13 @@ homi_df =
 homi_filt = filter(homi_df,city_state == "Baltimore,MD")
 test_res =  prop.test(x = homi_filt$unsolved, n = homi_filt$n_obs)
 save(test_res, file = "results/prop_test_BMD.RData")
-  
+broom::tidy(test_res) %>%
+  select(estimate, conf.low,conf.high)
 ```
 
+```{r}
+
+```
 
 
 
