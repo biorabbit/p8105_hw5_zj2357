@@ -85,6 +85,15 @@ conf_int =
 conf_int
 ```
 
+```{r}
+conf_int %>%
+  mutate(
+    city_state = fct_reorder(city_state, -estimate)
+  ) %>%
+  ggplot(aes(x = estimate, y = city_state)) +
+  geom_point()+
+  geom_errorbar(aes(xmin = conf.low, xmax = conf.high))
+```
 
 
 
