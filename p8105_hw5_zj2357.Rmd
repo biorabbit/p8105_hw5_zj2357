@@ -129,10 +129,18 @@ prop_rej <- function(u = 0, sigma = 5, n = 30, n_dataset = 5000){
 exp_res = 
   0:6 %>%
   map_df(prop_rej)
-
 ```
 
 
+```{r}
+exp_res %>%
+  ggplot(aes(x=u,y=p_rej)) +
+  geom_line() +
+  scale_y_continuous(labels = scales::percent_format(scale = 100)) +
+  scale_x_continuous(breaks = 0:6)+
+  ylab("percentage of rejection")+
+  labs(title = "Percentage of Rejection over Different u")
+```
 
 
 
