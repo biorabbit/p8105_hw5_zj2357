@@ -105,7 +105,7 @@ Obviously, `Chicago,IL` has the highest proportion of unsolved crimes. However, 
 
 # Problem 3
 Create a function that generates `n_sample` number of samples with parameter `u`, `sigma` and `n`.
-```{r, cache = TRUE}
+```{r}
 rm(list = ls())
 
 prop_rej <- function(u = 0, sigma = 5, n = 30, n_sample = 5000){
@@ -133,7 +133,7 @@ prop_rej <- function(u = 0, sigma = 5, n = 30, n_sample = 5000){
 
 Iterating the function for u={0,1,2,3,4,5,6}:
 
-```{r}
+```{r, cache = TRUE}
 exp_res = 
   0:6 %>%
   map_df(prop_rej)
