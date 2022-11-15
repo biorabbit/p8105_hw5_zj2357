@@ -105,7 +105,7 @@ Obviously, `Chicago,IL` has the highest proportion of unsolved crimes. However, 
 
 # Problem 3
 Create a function that generates `n_sample` number of samples with parameter `u`, `sigma` and `n`.
-```{r}
+```{r, cache = TRUE}
 rm(list = ls())
 
 prop_rej <- function(u = 0, sigma = 5, n = 30, n_sample = 5000){
@@ -145,11 +145,11 @@ Then, make a plot for the percentage of samples where null was rejected $(p<0.05
 
 ```{r}
 exp_res %>%
-  ggplot(aes(x=u,y=p_rej)) +
+  ggplot(aes(x = u,y = p_rej)) +
   geom_line() +
   scale_y_continuous(labels = scales::percent_format(scale = 100)) +
-  scale_x_continuous(breaks = 0:6)+
-  ylab("percentage of rejection")+
+  scale_x_continuous(breaks = 0:6) +
+  ylab("percentage of rejection") +
   labs(title = "Percentage of Rejection over Different u")
 ```
 
@@ -164,14 +164,14 @@ exp_res %>%
     names_to = "u_type",
     values_to = "u_est"
   ) %>%
-  ggplot(aes(x=u,y=u_est, color = u_type)) +
+  ggplot(aes(x = u, y = u_est, color = u_type)) +
   geom_line() +
-  scale_color_discrete(labels = c("all", "rejected"))+
-  scale_x_continuous(breaks = 0:6)+
-  ylab("estimated u")+
+  scale_color_discrete(labels = c("all", "rejected")) +
+  scale_x_continuous(breaks = 0:6) +
+  ylab("estimated u") +
   labs(title = "Comparison of estimated u between all and rejected samples")
 ```
 
 Because the number of rejected samples is low when $u=0$, the $\hat{u}_{rej}$ is quite unstable around 0.
 
-For $u \in \{1,2,3,4,5,6\}$, $\hat{u}_{rej}>\hat{u}_{all}$. However, the gap $\hat{u}_{rej}-\hat{u}_{all}$ gradualy decreases with the increase of $u$. Because when $u \geq 5$, nearly all samples are rejected, $\hat{u}_{rej} \approx \hat{u}_{all}$ under such conditions.
+For $u \in \{1,2,3,4,5,6\}$, $\hat{u}_{rej}$>$\hat{u}_{all}$. However, the gap $\hat{u}_{rej}$-$\hat{u}_{all}$ gradually decreases with the increase of $u$. Because when $u \geq 5$, nearly all samples are rejected, $\hat{u}_{rej}$ $\approx$ $\hat{u}_{all}$ under such conditions.
