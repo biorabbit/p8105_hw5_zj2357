@@ -131,7 +131,7 @@ prop_rej <- function(u = 0, sigma = 5, n = 30, n_sample = 5000){
 }
 ```
 
-Iterating the function for $u=\{0,1,2,3,4,5,6\}$:
+Iterating the function for u={0,1,2,3,4,5,6}:
 
 ```{r}
 exp_res = 
@@ -174,4 +174,4 @@ exp_res %>%
 
 Because the number of rejected samples is low when $u=0$, the $\hat{u}_{rej}$ is quite unstable around 0.
 
-For $u \in \{1,2,3,4,5,6\}$, $\hat{u}_{rej}$>$\hat{u}_{all}$. However, the gap $\hat{u}_{rej}$-$\hat{u}_{all}$ gradually decreases with the increase of $u$. Because when $u \geq 5$, nearly all samples are rejected, $\hat{u}_{rej}$ $\approx$ $\hat{u}_{all}$ under such conditions.
+For u $\in$ {1,2,3,4,5,6}, $\hat{u}_{rej}$ > $\hat{u}_{all}$. However, the gap $\hat{u}_{rej}$ - $\hat{u}_{all}$ gradually decreases with the increase of $u$. Because when $u \geq 5$, nearly all samples are rejected, $\hat{u}_{rej}$ $\approx$ $\hat{u}_{all}$ under such conditions.
