@@ -143,5 +143,19 @@ exp_res %>%
 ```
 
 
+```{r}
+exp_res %>%
+  pivot_longer(
+    u_est:u_rej,
+    names_to = "u_type",
+    values_to = "u_est"
+  ) %>%
+  ggplot(aes(x=u,y=u_est, color = u_type)) +
+  geom_line() +
+  scale_color_discrete(labels = c("all", "rejected"))+
+  scale_x_continuous(breaks = 0:6)+
+  ylab("estimated u")+
+  labs(title = "Comparasion of estimated between all and rejected samples")
+```
 
 
