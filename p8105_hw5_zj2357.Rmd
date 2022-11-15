@@ -104,19 +104,19 @@ conf_int %>%
 Obviously, `Chicago,IL` has the highest proportion of unsolved crimes. However, because `Tulsa, AL` has only one crime and it is solved, the Confidence Interval is [0, 1], which makes no prediction power.
 
 # Problem 3
-
+Create a function that generates `n_sample` number of samples with parameter `u`, `sigma` and `n`.
 ```{r}
-rm(list=ls())
+rm(list = ls())
 
-prop_rej <- function(u = 0, sigma = 5, n = 30, n_dataset = 5000){
-  dataset = map(.x = rep(u, n_dataset), .f = ~tibble(data=rnorm(n,.x,sigma))) %>%
+prop_rej <- function(u = 0, sigma = 5, n = 30, n_sample = 5000){
+  dataset = map(.x = rep(u, n_sample), .f = ~tibble(data=rnorm(n,.x,sigma))) %>%
     map(t.test) %>%
     map_df(broom::tidy)
 
   p_rej = dataset %>%
-    filter(p.value < 0.05)%>%
+    filter(p.value < 0.05) %>%
     nrow() %>%
-    `/`(n_dataset)
+    `/`(n_sample)
 
   u_est = dataset %>%
     pull(estimate) %>%
@@ -127,16 +127,21 @@ prop_rej <- function(u = 0, sigma = 5, n = 30, n_dataset = 5000){
     pull(estimate) %>%
     mean()
   
-  tibble(u=u, p_rej = p_rej, u_est = u_est, u_rej = u_rej)
+  tibble(u = u, p_rej = p_rej, u_est = u_est, u_rej = u_rej)
 }
+```
 
+Iterating the function for $u=\{0,1,2,3,4,5,6\}$:
 
-# iterating over u = 0:6
+```{r}
 exp_res = 
   0:6 %>%
   map_df(prop_rej)
+
+exp_res
 ```
 
+Then, make a plot for the percentage of samples where null was rejected $(p<0.05)$.
 
 ```{r}
 exp_res %>%
@@ -148,6 +153,9 @@ exp_res %>%
   labs(title = "Percentage of Rejection over Different u")
 ```
 
+Obviously, with the increase of $u$, the power of the test increased quickly, and saturated at about $u=5$. It is also notable that when $u=0$, the percentage of rejection is not the power of the test, but the percentage of type-I error, because the null hypothesis is true.
+
+Finally, make a plot showing the comparison of $\hat{u}$ between all and rejected samples.
 
 ```{r}
 exp_res %>%
@@ -161,7 +169,9 @@ exp_res %>%
   scale_color_discrete(labels = c("all", "rejected"))+
   scale_x_continuous(breaks = 0:6)+
   ylab("estimated u")+
-  labs(title = "Comparasion of estimated between all and rejected samples")
+  labs(title = "Comparison of estimated u between all and rejected samples")
 ```
 
+Because the number of rejected samples is low when $u=0$, the $\hat{u}_{rej}$ is quite unstable around 0.
 
+For $u \in \{1,2,3,4,5,6\}$, $\hat{u}_{rej}>\hat{u}_{all}$. However, the gap $\hat{u}_{rej}-\hat{u}_{all}$ gradualy decreases with the increase of $u$. Because when $u \geq 5$, nearly all samples are rejected, $\hat{u}_{rej} \approx \hat{u}_{all}$ under such conditions.
