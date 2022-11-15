@@ -65,16 +65,18 @@ homi_df =
   )
 ```
 
-
+Analyze the proportion of unsolved crimes in `Baltimore,MD`.
 ```{r}
-
-  
 homi_filt = filter(homi_df,city_state == "Baltimore,MD")
 test_res =  prop.test(x = homi_filt$unsolved, n = homi_filt$n_obs)
 save(test_res, file = "results/prop_test_BMD.RData")
 broom::tidy(test_res) %>%
   select(estimate, conf.low,conf.high)
 ```
+
+Thus, about 64.6% of crimes of `Baltimore,MD` are not solved. The 95% Confidence Interval is [62.8%, 66.3%].
+
+Then, run the process for all cities in `city_state` using `map_df()`: 
 
 ```{r}
 conf_int =
@@ -85,17 +87,21 @@ conf_int =
 conf_int
 ```
 
+Sort the cities by estimated proportion, and then make a plot:
+
 ```{r}
 conf_int %>%
   mutate(
     city_state = fct_reorder(city_state, -estimate)
   ) %>%
   ggplot(aes(x = estimate, y = city_state)) +
-  geom_point()+
-  geom_errorbar(aes(xmin = conf.low, xmax = conf.high))
+  geom_point() +
+  geom_errorbar(aes(xmin = conf.low, xmax = conf.high)) +
+  scale_x_continuous(labels = scales::percent_format(scale = 100)) +
+  labs(title = "Percentage of Unsolved Crimes across Cities")
 ```
 
-
+Obviously, `Chicago,IL` has the highest proportion of unsolved crimes. However, because `Tulsa, AL` has only one crime and it is solved, the Confidence Interval is [0, 1], which makes no prediction power.
 
 # Problem 3
 
