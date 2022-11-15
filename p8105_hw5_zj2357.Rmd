@@ -33,7 +33,7 @@ joined_df =
 write_csv(joined_df, "data/tidy/result.csv")
 ```
 
-making a plot
+Making a spaghetti plot
 ```{r}
 joined_df %>%
   pivot_longer(
@@ -46,20 +46,15 @@ joined_df %>%
   ggplot(aes(x = week,y = value, color = group, group = id)) +
   geom_line()
 ```
-
+According to the plot, the observation of the experiment arm was similar to the control arm in week 1. However, as time goes by, their value gradually increased, and became higher than all individuals in the control arm.
 
 # Problem 2
-
+Loading the dataset and summarize the crime cases over city.
 ```{r}
 rm(list = ls())
 
-homi_df = read_csv("data/homicide-data.csv")
-```
-
-
-```{r}
 homi_df = 
-  homi_df %>%
+  read_csv("data/homicide-data.csv") %>%
   mutate(
     city_state = str_c(city, ",", state) 
   ) %>%
@@ -68,6 +63,11 @@ homi_df =
     n_obs = n(),
     unsolved = sum(disposition %in% c("Closed without arrest","Open/No arrest"))
   )
+```
+
+
+```{r}
+
   
 homi_filt = filter(homi_df,city_state == "Baltimore,MD")
 test_res =  prop.test(x = homi_filt$unsolved, n = homi_filt$n_obs)
