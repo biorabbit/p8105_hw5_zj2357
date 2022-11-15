@@ -100,7 +100,7 @@ conf_int %>%
 # Problem 3
 
 ```{r}
-rm(ls= list())
+rm(list=ls())
 
 prop_rej <- function(u = 0, sigma = 5, n = 30, n_dataset = 5000){
   dataset = map(.x = rep(u, n_dataset), .f = ~tibble(data=rnorm(n,.x,sigma))) %>%
