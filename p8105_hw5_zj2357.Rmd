@@ -77,7 +77,12 @@ broom::tidy(test_res) %>%
 ```
 
 ```{r}
+conf_int =
+  map2_df(.x = homi_df$unsolved, .y = homi_df$n_obs, .f =  ~broom::tidy(prop.test(.x,.y))) %>%
+  mutate(city_state = homi_df$city_state) %>%
+  select(city_state, estimate, conf.low,conf.high)
 
+conf_int
 ```
 
 
@@ -90,12 +95,6 @@ broom::tidy(test_res) %>%
 
 
 # Problem 3
-
-
-
-
-
-
 
 
 
